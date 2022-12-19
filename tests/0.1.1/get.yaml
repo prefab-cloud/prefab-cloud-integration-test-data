@@ -1,18 +1,22 @@
 ---
-version: 0.1.0
+version: 0.1.1
 function: get
 tests:
   - name: get returns a found value for key
     client: config_client
     function: get
-    input: "my-test-key"
-    expected: "my-test-value"
+    input:
+      key: "my-test-key"
+    expected:
+      value: "my-test-value"
 
   - name: get returns nil if value not found
     client: config_client
     function: get
-    input: "my-missing-key"
-    expected: ~
+    input:
+      key: "my-missing-key"
+    expected:
+      value: ~
     client_overrides:
       :on_no_default: 2
 
@@ -22,13 +26,15 @@ tests:
     input:
       key: "my-missing-key"
       default: "DEFAULT"
-    expected: "DEFAULT"
+    expected:
+      value: "DEFAULT"
 
-  - name: get ignores a provided default ignored if the key is found
+  - name: get ignores a provided default if the key is found
     client: config_client
     function: get
     input:
       key: "my-test-key"
       default: "DEFAULT"
-    expected: "my-test-value"
+    expected:
+      value: "my-test-value"
 
