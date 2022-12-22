@@ -1,0 +1,253 @@
+---
+version: 0.1.2
+function: enabled
+tests:
+
+  ################
+  ## ALWAYS_ON ##
+  ################
+
+  - name: returns the correct value for a simple flag
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.simple"
+    expected:
+      value: true
+
+  - name: returns the correct value for a simple disabled flag
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.simple-disabled"
+    expected:
+      value: false
+
+  - name: always returns false for a non-boolean flag
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.integer"
+    expected:
+      value: false
+
+  ####################
+  ## LOOKUP_KEY_IN ##
+  ####################
+
+  - name: returns true for a LOOKUP_KEY_IN rule when the lookup key matches
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.lookup-key.positive"
+      lookup_key: "user:1"
+    expected:
+      value: true
+
+  - name: returns false for a LOOKUP_KEY_IN rule when the lookup key doesn't match
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.lookup-key.positive"
+      lookup_key: "user:3"
+    expected:
+      value: false
+
+  ########################
+  ## LOOKUP_KEY_NOT_IN ##
+  ########################
+
+  - name: returns false for a LOOKUP_KEY_NOT_IN rule when the lookup key matches
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.lookup-key.negative"
+      lookup_key: "user:1"
+    expected:
+      value: false
+
+  - name: returns true for a LOOKUP_KEY_NOT_IN rule when the lookup key doesn't match
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.lookup-key.negative"
+      lookup_key: "user:3"
+    expected:
+      value: true
+
+  #####################
+  ## PROP_IS_ONE_OF ##
+  #####################
+
+  - name: returns true for a PROP_IS_ONE_OF rule when any prop matches
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.properties"
+      properties:
+        name: "michael"
+        domain: "something.com"
+    expected:
+      value: true
+
+  - name: returns false for a PROP_IS_ONE_OF rule when no prop matches
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.properties"
+      properties:
+        name: "lauren"
+        domain: "something.com"
+    expected:
+      value: false
+
+  #########################
+  ## PROP_IS_NOT_ONE_OF ##
+  #########################
+
+  - name: returns true for a PROP_IS_NOT_ONE_OF rule when any prop doesn't match
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.properties.negative"
+      properties:
+        name: "lauren"
+        domain: "prefab.cloud"
+    expected:
+      value: true
+
+  - name: returns false for a PROP_IS_NOT_ONE_OF rule when all props match
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.properties.negative"
+      properties:
+        name: "michael"
+        domain: "prefab.cloud"
+    expected:
+      value: false
+
+  ############################
+  ## PROP_ENDS_WITH_ONE_OF ##
+  ############################
+
+  - name: returns true for PROP_ENDS_WITH_ONE_OF rule when the given prop has a matching suffix
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.ends-with-one-of.positive"
+      properties:
+        email: "jeff@prefab.cloud"
+    expected:
+      value: true
+
+  - name: returns false for PROP_ENDS_WITH_ONE_OF rule when the given prop doesn't have a matching suffix
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.ends-with-one-of.positive"
+      properties:
+        email: "jeff@test.com"
+    expected:
+      value: false
+
+  #####################################
+  ## PROP_DOES_NOT_END_WITH_ONE_OF ##
+  #####################################
+
+  - name: returns true for PROP_DOES_NOT_END_WITH_ONE_OF rule when the given prop doesn't have a matching suffix
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.ends-with-one-of.negative"
+      properties:
+        email: "michael@test.com"
+    expected:
+      value: true
+
+  - name: returns false for PROP_DOES_NOT_END_WITH_ONE_OF rule when the given prop has a matching suffix
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.ends-with-one-of.negative"
+      properties:
+        email: "michael@prefab.cloud"
+    expected:
+      value: false
+
+  #############
+  ## IN_SEG ##
+  #############
+
+  - name: returns true for IN_SEG when the segment rule matches
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.in-segment.positive"
+      lookup_key: "lauren"
+    expected:
+      value: true
+
+  - name: returns false for IN_SEG when the segment rule doesn't match
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.in-segment.positive"
+      lookup_key: "josh"
+    expected:
+      value: false
+
+  - name: returns true for IN_SEG if any segment rule matches
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.in-segment.multiple-criteria"
+      lookup_key: "josh"
+      properties:
+        domain: "prefab.cloud"
+    expected:
+      value: true
+
+  #################
+  ## NOT_IN_SEG ##
+  #################
+
+  - name: returns true for NOT_IN_SEG when the segment rule doesn't match
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.in-segment.negative"
+      lookup_key: "josh"
+    expected:
+      value: true
+
+  - name: returns false for NOT_IN_SEG when the segment rule matches
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.in-segment.negative"
+      lookup_key: "michael"
+    expected:
+      value: false
+
+  - name: returns false for NOT_IN_SEG if any segment rule matches
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.in-segment.multiple-criteria.negative"
+      lookup_key: "josh"
+      properties:
+        domain: "prefab.cloud"
+    expected:
+      value: false
+
+  - name: returns true for NOT_IN_SEG if no segment rule matches
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.in-segment.multiple-criteria.negative"
+      lookup_key: "josh"
+      properties:
+        domain: "something.com"
+    expected:
+      value: true
