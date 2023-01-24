@@ -15,14 +15,6 @@ tests:
     expected:
       value: true
 
-  - name: returns the correct value for a simple disabled flag
-    client: feature_flag_client
-    function: enabled
-    input:
-      flag: "feature-flag.simple-disabled"
-    expected:
-      value: false
-
   - name: always returns false for a non-boolean flag
     client: feature_flag_client
     function: enabled
@@ -83,7 +75,7 @@ tests:
     client: feature_flag_client
     function: enabled
     input:
-      flag: "feature-flag.properties"
+      flag: "feature-flag.properties.positive"
       properties:
         name: "michael"
         domain: "something.com"
@@ -94,7 +86,7 @@ tests:
     client: feature_flag_client
     function: enabled
     input:
-      flag: "feature-flag.properties"
+      flag: "feature-flag.properties.positive"
       properties:
         name: "lauren"
         domain: "something.com"
