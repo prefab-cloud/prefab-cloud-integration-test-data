@@ -189,14 +189,47 @@ tests:
     expected:
       value: false
 
-  - name: returns true for IN_SEG if any segment rule matches
+  - name: returns false for IN_SEG if any segment rule fails to match
     client: feature_flag_client
     function: enabled
     input:
-      flag: "feature-flag.in-segment.multiple-criteria"
+      flag: "feature-flag.in-seg.segment-and"
       lookup_key: "josh"
       properties:
         domain: "prefab.cloud"
+    expected:
+      value: false
+
+  - name: returns true for IN_SEG (segment-and) if all rules matches
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.in-seg.segment-and"
+      lookup_key: "michael"
+      properties:
+        domain: "prefab.cloud"
+    expected:
+      value: true
+
+  - name: returns true for IN_SEG (segment-or) if any segment rule matches (lookup)
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.in-seg.segment-or"
+      lookup_key: "michael"
+      properties:
+        domain: "example.com"
+    expected:
+      value: true
+
+  - name: returns true for IN_SEG (segment-or) if any segment rule matches (prop)
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.in-seg.segment-or"
+      lookup_key: "nobody"
+      properties:
+        domain: "gmail.com"
     expected:
       value: true
 
@@ -231,7 +264,7 @@ tests:
       properties:
         domain: "prefab.cloud"
     expected:
-      value: false
+      value: true
 
   - name: returns true for NOT_IN_SEG if no segment rule matches
     client: feature_flag_client
@@ -243,3 +276,69 @@ tests:
         domain: "something.com"
     expected:
       value: true
+
+  - name: returns true for NOT_IN_SEG (segment-and) if not segment rule fails to match
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.not-in-seg.segment-and"
+      lookup_key: "josh"
+      properties:
+        domain: "prefab.cloud"
+    expected:
+      value: true
+
+  - name: returns true for IN_SEG (segment-and) if not segment rule fails to match
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.in-seg.segment-and"
+      lookup_key: "josh"
+      properties:
+        domain: "prefab.cloud"
+    expected:
+      value: false
+
+  - name: returns false for NOT_IN_SEG (segment-and) if segment rules matches
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.not-in-seg.segment-and"
+      lookup_key: "michael"
+      properties:
+        domain: "prefab.cloud"
+    expected:
+      value: false
+
+  - name: returns true for NOT_IN_SEG (segment-or) if no segment rule matches
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.not-in-seg.segment-or"
+      lookup_key: "nobody"
+      properties:
+        domain: "example.com"
+    expected:
+      value: true
+
+  - name: returns false for NOT_IN_SEG (segment-or) if one segment rule matches (prop)
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.not-in-seg.segment-or"
+      lookup_key: "nobody"
+      properties:
+        domain: "gmail.com"
+    expected:
+      value: false
+
+  - name: returns false for NOT_IN_SEG (segment-or) if one segment rule matches (lookup)
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.not-in-seg.segment-or"
+      lookup_key: "michael"
+      properties:
+        domain: "example.com"
+    expected:
+      value: false
