@@ -190,7 +190,6 @@ tests:
       function: enabled
       input:
         flag: "feature-flag.in-seg.segment-or"
-        lookup_key: "michael"
         context:
           user:
             key: "michael"
@@ -204,7 +203,6 @@ tests:
       function: enabled
       input:
         flag: "feature-flag.in-seg.segment-or"
-        lookup_key: "nobody"
         context:
           user:
             key: "nobody"
