@@ -26,7 +26,7 @@ tests:
             key: james
       expected:
         value: false
-  - name: scope context with domain=prefab.cloud and user.key=michael
+  - name: scope context with domain=prefab.cloud and user.key=nobody
     context:
       "":
         domain: example.com
