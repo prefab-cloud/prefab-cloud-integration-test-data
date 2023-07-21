@@ -1,0 +1,69 @@
+---
+version: 0.2.2
+function: get
+tests:
+  - cases:
+    - name: get returns a found value for key
+      client: config_client
+      function: get
+      input:
+        key: "my-test-key"
+      expected:
+        value: "my-test-value"
+
+    - name: get returns nil if value not found
+      client: config_client
+      function: get
+      input:
+        key: "my-missing-key"
+      expected:
+        value: ~
+      client_overrides:
+        on_no_default: 2
+
+    - name: get returns a default for a missing value if a default is given
+      client: config_client
+      function: get
+      input:
+        key: "my-missing-key"
+        default: "DEFAULT"
+      expected:
+        value: "DEFAULT"
+
+    - name: get ignores a provided default if the key is found
+      client: config_client
+      function: get
+      input:
+        key: "my-test-key"
+        default: "DEFAULT"
+      expected:
+        value: "my-test-value"
+
+    - name: get respects a provided namespace when initializing the client
+      client: config_client
+      function: get
+      input:
+        key: "my-test-key"
+      expected:
+        value: "my-namespaced-value"
+      client_overrides:
+        namespace: "test-namespace"
+
+    - name: get can return a double
+      client: config_client
+      function: get
+      input:
+        key: "my-double-key"
+      expected:
+        value: 9.95
+
+    - name: get can return a string list
+      client: config_client
+      function: get
+      input:
+        key: "my-string-list-key"
+      expected:
+        value:
+          - a
+          - b
+          - c
