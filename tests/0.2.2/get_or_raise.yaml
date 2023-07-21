@@ -23,3 +23,30 @@ tests:
       expected:
         value: "DEFAULT"
 
+    - name: get_or_raise raises the correct error if it doesn't raise on init timeout
+      client: config_client
+      function: get_or_raise
+      input:
+        key: "any-key"
+      expected:
+        status: raise
+        error: missing_default
+        message: "No value found for key 'any-key'"
+      client_overrides:
+        initialization_timeout_sec: 0.01
+        prefab_api_url: "https://app.staging-prefab.cloud"
+        on_init_failure: :return
+
+    - name: get_or_raise can raise an error if the client does not initialize in time
+      client: config_client
+      function: get_or_raise
+      input:
+        key: "any-key"
+      expected:
+        status: raise
+        error: initialization_timeout
+        message: "Prefab couldn't initialize in 0.01 second timeout. Trying to fetch key `any-key`."
+      client_overrides:
+        initialization_timeout_sec: 0.01
+        prefab_api_url: "https://app.staging-prefab.cloud"
+        on_init_failure: :raise
