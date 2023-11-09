@@ -342,3 +342,27 @@ tests:
         domain: "example.com"
     expected:
       value: false
+
+  ############################
+  ## STRING LIST BEHAVIOUR ##
+  ############################
+
+  - name: returns true when a non-string version of a matching string is given
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.string-list"
+      properties:
+        team_name: 1
+    expected:
+      value: true
+
+  - name: returns false when a non-matching element is given
+    client: feature_flag_client
+    function: enabled
+    input:
+      flag: "feature-flag.string-list"
+      properties:
+        team_name: 2
+    expected:
+      value: false
