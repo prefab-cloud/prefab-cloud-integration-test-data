@@ -108,40 +108,40 @@ tests:
             conditional_value_index: 0
             weighted_value_index: 2
 
-      - name: reports example contexts
-        client: client
-        function: post
-        aggregator: example_contexts
-        endpoint: "/api/v1/telemetry"
-        data:
-          - user:
-              name: "michael"
-              age: 38
-              key: "m123"
-            device:
-              mobile: false
-          - team:
-              key: "t234"
-              id: 3.5
-        expected_data:
-          - user:
-              - key: "age"
-                value: 38
-                value_type: int
-              - key: "name"
-                value: "michael"
-                value_type: string
-              - key: "key"
-                value: "m123"
-                value_type: string
-            device:
-              - key: "mobile"
-                value: false
-                value_type: bool
-          - team:
-              - key: "id"
-                value: 3.5
-                value_type: double
-              - key: "key"
-                value: "t234"
-                value_type: string
+    - name: reports example contexts
+      client: client
+      function: post
+      aggregator: example_contexts
+      endpoint: "/api/v1/telemetry"
+      data:
+        - user:
+            name: "michael"
+            age: 38
+            key: "m123"
+          device:
+            mobile: false
+        - team:
+            key: "t234"
+            id: 3.5
+      expected_data:
+        - user:
+            - key: "age"
+              value: 38
+              value_type: int
+            - key: "name"
+              value: "michael"
+              value_type: string
+            - key: "key"
+              value: "m123"
+              value_type: string
+          device:
+            - key: "mobile"
+              value: false
+              value_type: bool
+        - team:
+            - key: "id"
+              value: 3.5
+              value_type: double
+            - key: "key"
+              value: "t234"
+              value_type: string
