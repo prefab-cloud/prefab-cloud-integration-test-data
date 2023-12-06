@@ -50,3 +50,12 @@ tests:
         initialization_timeout_sec: 0.01
         prefab_api_url: "https://app.staging-prefab.cloud"
         on_init_failure: :raise
+
+    - name: raises an error if a config is provided by a missing environment variable
+      client: config_client
+      function: get_or_raise
+      input:
+        key: "provided.by.missing.env.var"
+      expected:
+        status: raise
+        error: missing_env_var
