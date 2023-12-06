@@ -13,4 +13,8 @@ This is to make parsing easier for statically typed languages (for now, Java)
 
 ## 0.2.4
 
-- Added tests of provided by (env var) and encrypted data
+* Added tests of provided by (env var) configs
+  * missing environment variable
+  * env var with string that can't be coerced to an integer
+
+* Added tests of encrypted configs
