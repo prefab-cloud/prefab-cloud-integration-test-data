@@ -84,6 +84,15 @@ tests:
       expected:
         value: "c87ba22d8662282abe8a0e4651327b579cb64a454ab0f4c170b45b15f049a221"
 
+
+    - name: can return a value provided by an environment variable after type coercion
+      client: config_client
+      function: get
+      input:
+        key: "provided.a.number"
+      expected:
+        value: 1234
+
     - name: can decrypt and return a secret value (with decryption key in in env var)
       client: config_client
       function: get
