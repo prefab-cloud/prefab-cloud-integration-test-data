@@ -72,3 +72,25 @@ tests:
               domain: prefab.cloud
         expected:
           value: true
+  - name: empty context
+    cases:
+      - name: returns true for rule with different case on context property name
+        client: feature_flag_client
+        function: enabled
+        input:
+          flag: "mixed.case.property.name"
+          context:
+            user:
+              IsHuman: verified # different case than in feature flag rule on purpose
+        expected:
+          value: true
+      - name: returns false for not matching with different case on context property name
+        client: feature_flag_client
+        function: enabled
+        input:
+          flag: "mixed.case.property.name"
+          context:
+            user:
+              IsHuman: pending # different case than in feature flag rule on purpose
+        expected:
+          value: false
