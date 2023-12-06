@@ -1,5 +1,5 @@
 ---
-version: 0.2.2
+version: 0.2.4
 function: get
 tests:
   - cases:
@@ -90,4 +90,4 @@ tests:
       input:
         key: "a.secret.config"
       expected:
-        value: "c87ba22d8662282abe8a0e4651327b579cb64a454ab0f4c170b45b15f049a221"
+        value: "hello.world"

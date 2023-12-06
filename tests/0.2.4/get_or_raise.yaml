@@ -1,5 +1,5 @@
 ---
-version: 0.2.2
+version: 0.2.4
 function: get_or_raise
 # note in java get_or_raise is implemented as liveString which doesn't take a context argument
 tests:

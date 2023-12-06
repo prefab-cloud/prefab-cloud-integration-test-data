@@ -1,5 +1,5 @@
 ---
-version: 0.2.2
+version: 0.2.4
 function: enabled
 tests:
   - name: scope context with domain=prefab.cloud and user.key=michael
