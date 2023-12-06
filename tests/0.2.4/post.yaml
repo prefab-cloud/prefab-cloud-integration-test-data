@@ -117,6 +117,7 @@ tests:
         - user:
             name: "michael"
             age: 38
+            key: "michael:1234"
           device:
             mobile: false
         - team:
@@ -129,6 +130,8 @@ tests:
           - key: "name"
             value: "michael"
             value_type: string
+          - key: "key"
+            value: "michael:1234"
           device:
             - key: "mobile"
               value: false
@@ -137,3 +140,17 @@ tests:
           - key: "id"
             value: 3.5
             value_type: double
+    - name: example contexts without key are not reported
+      client: client
+      function: post
+      aggregator: example_contexts
+      endpoint: "/api/v1/telemetry"
+      data:
+        - user:
+            name: "michael"
+            age: 38
+          device:
+            mobile: false
+        - team:
+            id: 3.5
+      expected_data: []
