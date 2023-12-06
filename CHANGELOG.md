@@ -18,3 +18,4 @@ This is to make parsing easier for statically typed languages (for now, Java)
   * env var with string that can't be coerced to an integer
 
 * Added tests of encrypted configs
+  * including catching a decryption failure

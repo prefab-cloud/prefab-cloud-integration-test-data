@@ -68,3 +68,12 @@ tests:
       expected:
         status: raise
         error: unable_to_coerce_env_var
+
+    - name: raises an error for decryption failure
+      client: config_client
+      function: get_or_raise
+      input:
+        key: "a.broken.secret.config"
+      expected:
+        status: raise
+        error: unable_to_decrypt
