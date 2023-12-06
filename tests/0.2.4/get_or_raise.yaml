@@ -59,3 +59,12 @@ tests:
       expected:
         status: raise
         error: missing_env_var
+
+    - name: raises an error if an env-var-provided config cannot be coerced to configured type
+      client: config_client
+      function: get_or_raise
+      input:
+        key: "provided.not.a.number"
+      expected:
+        status: raise
+        error: unable_to_coerce_env_var
