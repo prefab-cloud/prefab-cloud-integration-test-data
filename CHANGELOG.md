@@ -19,4 +19,5 @@ This is to make parsing easier for statically typed languages (for now, Java)
 
 * Added tests of encrypted configs
   * including catching a decryption failure
-* Test where the case of context property differs between rule and client context to show case-insensitivity  
+* Test where the case of context property differs between rule and client context to show case-insensitivity
+* Test that contexts without a key field are not shipped back to Prefab
