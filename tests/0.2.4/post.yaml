@@ -149,7 +149,7 @@ tests:
         - user:
             name: "michael"
             age: 38
-          device:
+        - device:
             mobile: false
         - team:
             id: 3.5
