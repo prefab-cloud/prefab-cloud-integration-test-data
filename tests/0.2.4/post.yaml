@@ -118,7 +118,7 @@ tests:
             name: "michael"
             age: 38
             key: "michael:1234"
-          device:
+        - device:
             mobile: false
         - team:
             id: 3.5
@@ -132,7 +132,7 @@ tests:
             value_type: string
           - key: "key"
             value: "michael:1234"
-          device:
+        - device:
             - key: "mobile"
               value: false
               value_type: bool
