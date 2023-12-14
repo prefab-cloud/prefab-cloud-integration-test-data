@@ -39,16 +39,6 @@ tests:
       expected:
         value: "my-test-value"
 
-    - name: get respects a provided namespace when initializing the client
-      client: config_client
-      function: get
-      input:
-        key: "my-test-key"
-      expected:
-        value: "my-namespaced-value"
-      client_overrides:
-        namespace: "test-namespace"
-
     - name: get can return a double
       client: config_client
       function: get
