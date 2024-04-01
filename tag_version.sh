@@ -12,8 +12,8 @@ if [[ $(git status --porcelain) ]]; then
     exit 1
 fi
 
-# Get the current version from the tests/version file
-current_version=$(cat tests/version)
+# Get the current version from the version file
+current_version=$(cat version)
 
 # Prompt the user for a new version
 read -p "Current version is $current_version. Enter new version: " new_version
@@ -25,10 +25,10 @@ while ! version_gt "$new_version" "$current_version"; do
 done
 
 # Update the tests/version file with the new version
-echo "$new_version" > tests/version
+echo "$new_version" > version
 
 # Stage the modified tests/version file
-git add tests/version
+git add version
 
 # Commit the changes with a message including the new version
 git commit -m "Bump version to $new_version"
