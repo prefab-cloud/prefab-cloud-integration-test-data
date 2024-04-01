@@ -90,3 +90,48 @@ tests:
         key: "a.secret.config"
       expected:
         value: "hello.world"
+
+    - name: duration 200 ms
+      client: config_client
+      function: get
+      type: DURATION
+      input:
+        key: "test.duration.PT0.2S"
+      expected:
+        millis: 200
+
+    - name: duration 90S
+      client: config_client
+      function: get
+      type: DURATION
+      input:
+        key: "test.duration.PT90S"
+      expected:
+        millis: 90000
+
+    - name: duration 1.5M
+      client: config_client
+      function: get
+      type: DURATION
+      input:
+        key: "test.duration.PT1.5M"
+      expected:
+        millis: 90000
+
+    - name: duration 0.5H
+      client: config_client
+      function: get
+      type: DURATION
+      input:
+        key: "test.duration.PT0.5H"
+      expected:
+        millis: 1800000
+
+    - name: duration test.duration.P1DT6H2M1.5S
+      client: config_client
+      function: get
+      type: DURATION
+      input:
+        key: "test.duration.P1DT6H2M1.5S"
+      expected:
+        millis: 108121500
