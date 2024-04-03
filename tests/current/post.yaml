@@ -64,11 +64,15 @@ tests:
         aggregator: evaluation_summary
         endpoint: "/api/v1/telemetry"
         data:
-          - "my-test-key"
-          - "feature-flag.integer"
-          - "my-string-list-key"
-          - "feature-flag.integer"
-          - "feature-flag.weighted"
+          keys:
+            - "my-test-key"
+            - "feature-flag.integer"
+            - "my-string-list-key"
+            - "feature-flag.integer"
+            - "feature-flag.weighted"
+          context:
+            user:
+              tracking_id: "92a202f2"
         expected_data:
           - key: "my-test-key"
             type: CONFIG
