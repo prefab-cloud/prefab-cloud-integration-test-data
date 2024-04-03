@@ -1,5 +1,4 @@
 ---
-version: 0.2.4.3
 function: post
 tests:
   - cases:
