@@ -5,6 +5,7 @@ tests:
     - name: weighted value is consistent 1
       client: config_client
       function: get
+      type: INT
       input:
         flag: "feature-flag.weighted"
         context:
@@ -15,6 +16,7 @@ tests:
     - name: weighted value is consistent 2
       client: config_client
       function: get
+      type: INT
       input:
         flag: "feature-flag.weighted"
         context:
@@ -25,6 +27,7 @@ tests:
     - name: weighted value is consistent 3
       client: config_client
       function: get
+      type: INT
       input:
         flag: "feature-flag.weighted"
         context:

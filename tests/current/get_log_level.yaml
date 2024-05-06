@@ -11,6 +11,7 @@ tests:
       - name: returns the targeted log level value
         client: config_client
         function: get
+        type: LOG_LEVEL
         input:
           key: "log-level.prefab.criteria_evaluator"
         expected:
@@ -21,6 +22,7 @@ tests:
       - name: returns the default
         client: config_client
         function: get
+        type: LOG_LEVEL
         input:
           key: "log-level.prefab.criteria_evaluator"
         expected:
@@ -36,6 +38,7 @@ tests:
       - name: returns the default
         client: config_client
         function: get
+        type: LOG_LEVEL
         input:
           key: "log-level.prefab.criteria_evaluator"
         expected:
