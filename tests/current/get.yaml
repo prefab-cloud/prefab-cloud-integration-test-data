@@ -66,6 +66,7 @@ tests:
       - name: can return an override based on the default context
         client: config_client
         function: get
+        type: STRING
         input:
           key: "my-overridden-key"
         expected:
