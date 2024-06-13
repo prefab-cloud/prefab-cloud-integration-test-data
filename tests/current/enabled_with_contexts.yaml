@@ -2,15 +2,16 @@
 function: enabled
 tests:
   - name: scope context with domain=prefab.cloud and user.key=michael
-    context:
-      "":
-        domain: prefab.cloud
-      user:
-        key: michael
     cases:
     - name: returns true from global context
       client: feature_flag_client
       function: enabled
+      contexts:
+        block:
+          "":
+            domain: prefab.cloud
+          user:
+            key: michael
       input:
         flag: "feature-flag.in-seg.segment-and"
       expected:
@@ -18,23 +19,30 @@ tests:
     - name: returns false due to local context override
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.in-seg.segment-and"
-        context:
+      contexts:
+        block:
+          "":
+            domain: prefab.cloud
+          user:
+            key: michael
+        local:
           user:
             key: james
+      input:
+        flag: "feature-flag.in-seg.segment-and"
       expected:
         value: false
   - name: scope context with domain=prefab.cloud and user.key=nobody
-    context:
-      "":
-        domain: example.com
-      user:
-        key: nobody
     cases:
       - name: returns false for untouched scope context
         client: feature_flag_client
         function: enabled
+        contexts:
+          block:
+            "":
+              domain: example.com
+            user:
+              key: nobody
         input:
           flag: "feature-flag.in-seg.segment-and"
         expected:
@@ -42,33 +50,51 @@ tests:
       - name: returns false due to partial scope context override of user.key
         client: feature_flag_client
         function: enabled
-        input:
-          flag: "feature-flag.in-seg.segment-and"
-          context:
+        contexts:
+          block:
+            "":
+              domain: example.com
+            user:
+              key: nobody
+          local:
             user:
               key: michael
+        input:
+          flag: "feature-flag.in-seg.segment-and"
         expected:
           value: false
       - name: returns false due to partial scope context override of domain
         client: feature_flag_client
         function: enabled
-        input:
-          flag: "feature-flag.in-seg.segment-and"
-          context:
+        contexts:
+          block:
+            "":
+              domain: example.com
+            user:
+              key: nobody
+          local:
             "":
               key: prefab.cloud
+        input:
+          flag: "feature-flag.in-seg.segment-and"
         expected:
           value: false
       - name: returns true due to full scope context override of user.key and domain
         client: feature_flag_client
         function: enabled
-        input:
-          flag: "feature-flag.in-seg.segment-and"
-          context:
+        contexts:
+          block:
+            "":
+              domain: example.com
+            user:
+              key: nobody
+          local:
             user:
               key: michael
             "":
               domain: prefab.cloud
+        input:
+          flag: "feature-flag.in-seg.segment-and"
         expected:
           value: true
   - name: empty context
@@ -76,20 +102,22 @@ tests:
       - name: returns false for rule with different case on context property name
         client: feature_flag_client
         function: enabled
-        input:
-          flag: "mixed.case.property.name"
-          context:
+        contexts:
+          local:
             user:
               IsHuman: verified # different case than in feature flag rule on purpose
+        input:
+          flag: "mixed.case.property.name"
         expected:
           value: false
       - name: returns true for matching case on context property name
         client: feature_flag_client
         function: enabled
-        input:
-          flag: "mixed.case.property.name"
-          context:
+        contexts:
+          local:
             user:
               isHuman: verified
+        input:
+          flag: "mixed.case.property.name"
         expected:
           value: true

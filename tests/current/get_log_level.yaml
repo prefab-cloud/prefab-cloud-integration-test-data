@@ -2,13 +2,14 @@
 function: get
 tests:
   - name: with the correct targeting context
-    context:
-      "":
-        domain: prefab.cloud
-      user:
-        tracking_id: abcd
     cases:
       - name: returns the targeted log level value
+        contexts:
+          block:
+            "":
+              domain: prefab.cloud
+            user:
+              tracking_id: abcd
         client: config_client
         function: get
         type: LOG_LEVEL
@@ -29,15 +30,16 @@ tests:
           value: WARN
 
   - name: with the incorrect targeting context
-    context:
-      "":
-        domain: prefab.cloud
-      user:
-        tracking_id: does-not-match
     cases:
       - name: returns the default
         client: config_client
         function: get
+        contexts:
+          block:
+            "":
+              domain: prefab.cloud
+            user:
+              tracking_id: does-not-match
         type: LOG_LEVEL
         input:
           key: "log-level.prefab.criteria_evaluator"
