@@ -15,10 +15,11 @@ tests:
       client: feature_flag_client
       function: get
       type: INT
-      input:
-        flag: "feature-flag.integer"
-        context:
+      contexts:
+        local:
           user:
             key: "michael"
+      input:
+        flag: "feature-flag.integer"
       expected:
         value: 5

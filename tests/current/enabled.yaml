@@ -31,24 +31,26 @@ tests:
     - name: returns true for a PROP_IS_ONE_OF rule when any prop matches
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.properties.positive"
-        context:
+      contexts:
+        local:
           "":
             name: "michael"
             domain: "something.com"
+      input:
+        flag: "feature-flag.properties.positive"
       expected:
         value: true
 
     - name: returns false for a PROP_IS_ONE_OF rule when no prop matches
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.properties.positive"
-        context:
+      contexts:
+        local:
           "":
             name: "lauren"
             domain: "something.com"
+      input:
+        flag: "feature-flag.properties.positive"
       expected:
         value: false
 
@@ -59,24 +61,26 @@ tests:
     - name: returns true for a PROP_IS_NOT_ONE_OF rule when any prop doesn't match
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.properties.negative"
-        context:
+      contexts:
+        local:
           "":
             name: "lauren"
             domain: "prefab.cloud"
+      input:
+        flag: "feature-flag.properties.negative"
       expected:
         value: true
 
     - name: returns false for a PROP_IS_NOT_ONE_OF rule when all props match
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.properties.negative"
-        context:
+      contexts:
+        local:
           "":
             name: "michael"
             domain: "prefab.cloud"
+      input:
+        flag: "feature-flag.properties.negative"
       expected:
         value: false
 
@@ -87,22 +91,24 @@ tests:
     - name: returns true for PROP_ENDS_WITH_ONE_OF rule when the given prop has a matching suffix
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.ends-with-one-of.positive"
-        context:
+      contexts:
+        block:
           "":
             email: "jeff@prefab.cloud"
+      input:
+        flag: "feature-flag.ends-with-one-of.positive"
       expected:
         value: true
 
     - name: returns false for PROP_ENDS_WITH_ONE_OF rule when the given prop doesn't have a matching suffix
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.ends-with-one-of.positive"
-        context:
+      contexts:
+        local:
           "":
             email: "jeff@test.com"
+      input:
+        flag: "feature-flag.ends-with-one-of.positive"
       expected:
         value: false
 
@@ -113,22 +119,24 @@ tests:
     - name: returns true for PROP_DOES_NOT_END_WITH_ONE_OF rule when the given prop doesn't have a matching suffix
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.ends-with-one-of.negative"
-        context:
+      contexts:
+        block:
           "":
             email: "michael@test.com"
+      input:
+        flag: "feature-flag.ends-with-one-of.negative"
       expected:
         value: true
 
     - name: returns false for PROP_DOES_NOT_END_WITH_ONE_OF rule when the given prop has a matching suffix
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.ends-with-one-of.negative"
-        context:
+      contexts:
+        local:
           "":
             email: "michael@prefab.cloud"
+      input:
+        flag: "feature-flag.ends-with-one-of.negative"
       expected:
         value: false
 
@@ -139,74 +147,80 @@ tests:
     - name: returns true for IN_SEG when the segment rule matches
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.in-segment.positive"
-        context:
+      contexts:
+        block:
           user:
             key: "lauren"
+      input:
+        flag: "feature-flag.in-segment.positive"
       expected:
         value: true
 
     - name: returns false for IN_SEG when the segment rule doesn't match
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.in-segment.positive"
-        context:
+      contexts:
+        local:
           user:
             key: "josh"
+      input:
+        flag: "feature-flag.in-segment.positive"
       expected:
         value: false
 
     - name: returns false for IN_SEG if any segment rule fails to match
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.in-seg.segment-and"
-        context:
+      contexts:
+        block:
           user:
             key: "josh"
           "":
             domain: "prefab.cloud"
+      input:
+        flag: "feature-flag.in-seg.segment-and"
       expected:
         value: false
 
     - name: returns true for IN_SEG (segment-and) if all rules matches
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.in-seg.segment-and"
-        context:
+      contexts:
+        local:
           user:
             key: "michael"
           "":
             domain: "prefab.cloud"
+      input:
+        flag: "feature-flag.in-seg.segment-and"
       expected:
         value: true
 
     - name: returns true for IN_SEG (segment-or) if any segment rule matches (lookup)
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.in-seg.segment-or"
-        context:
+      contexts:
+        block:
           user:
             key: "michael"
           "":
             domain: "example.com"
+      input:
+        flag: "feature-flag.in-seg.segment-or"
       expected:
         value: true
 
     - name: returns true for IN_SEG (segment-or) if any segment rule matches (prop)
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.in-seg.segment-or"
-        context:
+      contexts:
+        local:
           user:
             key: "nobody"
           "":
             domain: "gmail.com"
+      input:
+        flag: "feature-flag.in-seg.segment-or"
       expected:
         value: true
 
@@ -217,125 +231,135 @@ tests:
     - name: returns true for NOT_IN_SEG when the segment rule doesn't match
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.in-segment.negative"
-        context:
+      contexts:
+        block:
           user:
             key: "josh"
+      input:
+        flag: "feature-flag.in-segment.negative"
       expected:
         value: true
 
     - name: returns false for NOT_IN_SEG when the segment rule matches
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.in-segment.negative"
-        context:
+      contexts:
+        local:
           user:
             key: "michael"
+      input:
+        flag: "feature-flag.in-segment.negative"
       expected:
         value: false
 
     - name: returns false for NOT_IN_SEG if any segment rule matches
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.in-segment.multiple-criteria.negative"
-        context:
+      contexts:
+        block:
           user:
             key: "josh"
           "":
             domain: "prefab.cloud"
+      input:
+        flag: "feature-flag.in-segment.multiple-criteria.negative"
       expected:
         value: true
 
     - name: returns true for NOT_IN_SEG if no segment rule matches
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.in-segment.multiple-criteria.negative"
-        context:
+      contexts:
+        local:
           user:
             key: "josh"
           "":
             domain: "something.com"
+      input:
+        flag: "feature-flag.in-segment.multiple-criteria.negative"
       expected:
         value: true
 
     - name: returns true for NOT_IN_SEG (segment-and) if not segment rule fails to match
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.not-in-seg.segment-and"
-        context:
+      contexts:
+        block:
           user:
             key: "josh"
           "":
             domain: "prefab.cloud"
+      input:
+        flag: "feature-flag.not-in-seg.segment-and"
       expected:
         value: true
 
     - name: returns true for IN_SEG (segment-and) if not segment rule fails to match
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.in-seg.segment-and"
-        context:
+      contexts:
+        local:
           user:
             key: "josh"
           "":
             domain: "prefab.cloud"
+      input:
+        flag: "feature-flag.in-seg.segment-and"
       expected:
         value: false
 
     - name: returns false for NOT_IN_SEG (segment-and) if segment rules matches
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.not-in-seg.segment-and"
-        context:
+      contexts:
+        block:
           user:
             key: "michael"
           "":
             domain: "prefab.cloud"
+      input:
+        flag: "feature-flag.not-in-seg.segment-and"
       expected:
         value: false
 
     - name: returns true for NOT_IN_SEG (segment-or) if no segment rule matches
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.not-in-seg.segment-or"
-        context:
+      contexts:
+        local:
           user:
             key: "nobody"
           "":
             domain: "example.com"
+      input:
+        flag: "feature-flag.not-in-seg.segment-or"
       expected:
         value: true
 
     - name: returns false for NOT_IN_SEG (segment-or) if one segment rule matches (prop)
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.not-in-seg.segment-or"
-        context:
+      contexts:
+        block:
           user:
             key: "nobody"
           "":
             domain: "gmail.com"
+      input:
+        flag: "feature-flag.not-in-seg.segment-or"
       expected:
         value: false
 
     - name: returns false for NOT_IN_SEG (segment-or) if one segment rule matches (lookup)
       client: feature_flag_client
       function: enabled
-      input:
-        flag: "feature-flag.not-in-seg.segment-or"
-        context:
+      contexts:
+        local:
           user:
             key: "michael"
           "":
             domain: "example.com"
+      input:
+        flag: "feature-flag.not-in-seg.segment-or"
       expected:
         value: false

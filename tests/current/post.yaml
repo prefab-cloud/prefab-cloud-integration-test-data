@@ -63,6 +63,10 @@ tests:
         function: post
         aggregator: evaluation_summary
         endpoint: "/api/v1/telemetry"
+        contexts:
+          block:
+            user:
+              tracking_id: "92a202f2"
         data:
           keys:
             - "my-test-key"
@@ -70,9 +74,6 @@ tests:
             - "my-string-list-key"
             - "feature-flag.integer"
             - "feature-flag.weighted"
-          context:
-            user:
-              tracking_id: "92a202f2"
         expected_data:
           - key: "my-test-key"
             type: CONFIG
