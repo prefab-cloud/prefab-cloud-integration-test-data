@@ -122,6 +122,7 @@ tests:
         key: "basic.rule.config"
       expected:
         value: "override"
+      type: STRING
     - name: returns the correct `get` value using the global context (2)
       client: config_client
       function: get
@@ -133,6 +134,7 @@ tests:
         key: "basic.rule.config"
       expected:
         value: "default"
+      type: STRING
     - name: returns the correct `get` value when local context clobbers global context (1)
       client: config_client
       function: get
@@ -147,6 +149,7 @@ tests:
         key: "basic.rule.config"
       expected:
         value: "override"
+      type: STRING
     - name: returns the correct `get` value when local context clobbers global context (2)
       client: config_client
       function: get
@@ -161,6 +164,7 @@ tests:
         key: "basic.rule.config"
       expected:
         value: "default"
+      type: STRING
     - name: returns the correct `get` value when block context clobbers global context (1)
       contexts:
         global:
@@ -175,6 +179,7 @@ tests:
         flag: "basic.rule.config"
       expected:
         value: "default"
+      type: STRING
     - name: returns the correct `get` value when block context clobbers global context (2)
       contexts:
         global:
@@ -189,6 +194,7 @@ tests:
         flag: "basic.rule.config"
       expected:
         value: "override"
+      type: STRING
     - name: returns the correct `get` value when local context clobbers block context (1)
       contexts:
         block:
@@ -203,6 +209,7 @@ tests:
         flag: "basic.rule.config"
       expected:
         value: "default"
+      type: STRING
     - name: returns the correct `get` value when local context clobbers block context (2)
       contexts:
         block:
@@ -217,3 +224,4 @@ tests:
         flag: "basic.rule.config"
       expected:
         value: "override"
+      type: STRING
