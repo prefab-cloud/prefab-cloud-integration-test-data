@@ -144,3 +144,15 @@ tests:
           key: "test.duration.P1DT6H2M1.5S"
         expected:
           millis: 108121500
+
+      - name: json test
+        client: config_client
+        function: get
+        type: JSON
+        input:
+          key: "test.json"
+        expected:
+          value:
+            a: 1
+            b: c
+
