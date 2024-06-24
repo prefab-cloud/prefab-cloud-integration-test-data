@@ -156,3 +156,68 @@ tests:
             a: 1
             b: c
 
+      - name: list on left side test (1)
+        client: config_client
+        function: get
+        type: STRING
+        input:
+          key: "left.hand.list.test"
+        contexts:
+          local:
+            user:
+              name: james
+              aka:
+                - happy
+                - sleepy
+        expected:
+          value: "correct"
+
+      - name: list on left side test (2)
+        client: config_client
+        function: get
+        type: STRING
+        input:
+          key: "left.hand.list.test"
+        contexts:
+          local:
+            user:
+              name: james
+              aka:
+                - a
+                - b
+        expected:
+          value: "default"
+
+      - name: list on left side test opposite (1)
+        client: config_client
+        function: get
+        type: STRING
+        input:
+          key: "left.hand.test.opposite"
+        contexts:
+          local:
+            user:
+              name: james
+              aka:
+                - happy
+                - sleepy
+        expected:
+          value: "default"
+
+      - name: list on left side test (2)
+        client: config_client
+        function: get
+        type: STRING
+        input:
+          key: "left.hand.test.opposite"
+        contexts:
+          local:
+            user:
+              name: james
+              aka:
+                - a
+                - b
+        expected:
+          value: "correct"
+
+
