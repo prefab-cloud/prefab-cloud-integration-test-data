@@ -204,7 +204,7 @@ tests:
         expected:
           value: "default"
 
-      - name: list on left side test (2)
+      - name: list on left side test (3)
         client: config_client
         function: get
         type: STRING
