@@ -148,7 +148,7 @@ tests:
       expected:
         value: "override"
       type: STRING
-    - name: returns the correct `get` value using the global context (2)
+    - name: returns the correct `get` value using the global context (3)
       client: config_client
       function: get
       contexts:
