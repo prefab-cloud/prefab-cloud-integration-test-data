@@ -1,0 +1,5 @@
+integration:
+  int: 123
+  float: 5.22
+  bool: true
+  string: "hello"
