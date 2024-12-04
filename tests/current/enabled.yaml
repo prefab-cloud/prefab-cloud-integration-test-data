@@ -140,6 +140,121 @@ tests:
       expected:
         value: false
 
+      ############################
+      ## PROP_STARTS_WITH_ONE_OF ##
+      ############################
+
+    - name: returns true for PROP_STARTS_WITH_ONE_OF rule when the given prop has a matching prefix
+      client: feature_flag_client
+      function: enabled
+      contexts:
+        block:
+          user:
+            email: "foo@prefab.cloud"
+      input:
+        flag: "feature-flag.starts-with-one-of.positive"
+      expected:
+        value: true
+
+    - name: returns false for PROP_STARTS_WITH_ONE_OF rule when the given prop doesn't have a matching prefix
+      client: feature_flag_client
+      function: enabled
+      contexts:
+        block:
+          user:
+            email: "notfoo@prefab.cloud"
+      input:
+        flag: "feature-flag.starts-with-one-of.positive"
+      expected:
+        value: false
+
+      #####################################
+      ## PROP_DOES_NOT_START_WITH_ONE_OF ##
+      #####################################
+
+    - name: returns true for PROP_DOES_NOT_START_WITH_ONE_OF rule when the given prop doesn't have a matching prefix
+      client: feature_flag_client
+      function: enabled
+      contexts:
+        block:
+          user:
+            email: "notfoo@prefab.cloud"
+      input:
+        flag: "feature-flag.starts-with-one-of.negative"
+      expected:
+        value: true
+
+    - name: returns false for PROP_DOES_NOT_START_WITH_ONE_OF rule when the given prop has a matching prefix
+      client: feature_flag_client
+      function: enabled
+      contexts:
+        block:
+          user:
+            email: "foo@prefab.cloud"
+      input:
+        flag: "feature-flag.starts-with-one-of.negative"
+      expected:
+        value: false
+
+
+      ############################
+      ## PROP_CONTAINS_ONE_OF   ##
+      ############################
+
+    - name: returns true for PROP_CONTAINS_ONE_OF rule when the given prop has a matching substring
+      client: feature_flag_client
+      function: enabled
+      contexts:
+        block:
+          user:
+            email: "somefoo@prefab.cloud"
+      input:
+        flag: "feature-flag.contains-one-of.positive"
+      expected:
+        value: true
+
+    - name: returns false for PROP_CONTAINS_ONE_OF rule when the given prop doesn't have a matching substring
+      client: feature_flag_client
+      function: enabled
+      contexts:
+        block:
+          user:
+            email: "info@prefab.cloud"
+      input:
+        flag: "feature-flag.contains-one-of.positive"
+      expected:
+        value: false
+
+      #####################################
+      ## PROP_DOES_NOT_CONTAIN_ONE_OF    ##
+      #####################################
+
+    - name: returns true for PROP_DOES_NOT_CONTAIN_ONE_OF rule when the given prop doesn't have a matching substring
+      client: feature_flag_client
+      function: enabled
+      contexts:
+        block:
+          user:
+            email: "info@prefab.cloud"
+      input:
+        flag: "feature-flag.contains-one-of.negative"
+      expected:
+        value: true
+
+    - name: returns false for PROP_DOES_NOT_CONTAIN_ONE_OF rule when the given prop has a matching substring
+      client: feature_flag_client
+      function: enabled
+      contexts:
+        block:
+          user:
+            email: "notfoo@prefab.cloud"
+      input:
+        flag: "feature-flag.contains-one-of.negative"
+      expected:
+        value: false
+
+
+
     #############
     ## IN_SEG ##
     #############
