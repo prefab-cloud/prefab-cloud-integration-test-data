@@ -849,3 +849,182 @@ tests:
           flag: "feature-flag.greater-than-or-equal"
         expected:
           value: false
+
+
+      #####################################
+      ## PROP_MATCHES -- the regex is a+b+  ##
+      #####################################
+
+      - name: returns true for PROP_MATCHES rule when the given prop matches the regex
+        client: feature_flag_client
+        function: enabled
+        contexts:
+          block:
+            user:
+              code: aaaaaab
+        input:
+          flag: "feature-flag.matches"
+        expected:
+          value: true
+
+      - name: returns false for PROP_MATCHES rule when the given prop does not match the regex
+        client: feature_flag_client
+        function: enabled
+        contexts:
+          block:
+            user:
+              code: aa
+        input:
+          flag: "feature-flag.matches"
+        expected:
+          value: false
+
+      #####################################
+      ## PROP_DOES_NOT_MATCH -- the regex is a+b+  ##
+      #####################################
+
+      - name: returns true for PROP_DOES_NOT_MATCH rule when the given prop does not match the regex
+        client: feature_flag_client
+        function: enabled
+        contexts:
+          block:
+            user:
+              code: b
+        input:
+          flag: "feature-flag.does-not-match"
+        expected:
+          value: true
+
+      - name: returns false for PROP_DOES_NOT_MATCH rule when the given prop matches the regex
+        client: feature_flag_client
+        function: enabled
+        contexts:
+          block:
+            user:
+              code: aabb
+        input:
+          flag: "feature-flag.does-not-match"
+        expected:
+          value: false
+
+
+      #####################################
+      ## PROP_SEMVER_EQUAL -- the version is 2.0.0  ##
+      #####################################
+
+      - name: returns true for PROP_SEMVER_EQUAL rule when the given prop equals the version
+        client: feature_flag_client
+        function: enabled
+        contexts:
+          block:
+            app:
+              version: "2.0.0"
+        input:
+          flag: "feature-flag.semver-equal"
+        expected:
+          value: true
+
+      - name: returns false for PROP_SEMVER_EQUAL rule when the given prop does not equal the version
+        client: feature_flag_client
+        function: enabled
+        contexts:
+          block:
+            app:
+              version: "2.0.1"
+        input:
+          flag: "feature-flag.semver-equal"
+        expected:
+          value: false
+
+      - name: returns false for PROP_SEMVER_EQUAL rule when the given prop is not a valid semver
+        client: feature_flag_client
+        function: enabled
+        contexts:
+          block:
+            app:
+              version: "2.0"
+        input:
+          flag: "feature-flag.semver-equal"
+        expected:
+          value: false
+
+
+      #####################################
+      ## PROP_SEMVER_LESS_THAN -- the version is 2.0.0  ##
+      #####################################
+
+      - name: returns true for PROP_SEMVER_LESS_THAN rule when the given prop is less than 2.0.0
+        client: feature_flag_client
+        function: enabled
+        contexts:
+          block:
+            app:
+              version: "1.5.1"
+        input:
+          flag: "feature-flag.semver-less-than"
+        expected:
+          value: true
+
+      - name: returns false for PROP_SEMVER_LESS_THAN rule when the given prop equals the version
+        client: feature_flag_client
+        function: enabled
+        contexts:
+          block:
+            app:
+              version: "2.0.0"
+        input:
+          flag: "feature-flag.semver-less-than"
+        expected:
+          value: false
+
+      - name: returns false for PROP_SEMVER_LESS_THAN rule when the given prop is greater than the version
+        client: feature_flag_client
+        function: enabled
+        contexts:
+          block:
+            app:
+              version: "2.2.1"
+        input:
+          flag: "feature-flag.semver-less-than"
+        expected:
+          value: false
+
+      #####################################
+      ## PROP_SEMVER_GREATER_THAN -- the version is 2.0.0  ##
+      #####################################
+
+      - name: returns true for PROP_SEMVER_GREATER_THAN rule when the given prop is greater than 2.0.0
+        client: feature_flag_client
+        function: enabled
+        contexts:
+          block:
+            app:
+              version: "2.5.1"
+        input:
+          flag: "feature-flag.semver-greater-than"
+        expected:
+          value: true
+
+      - name: returns false for PROP_SEMVER_GREATER_THAN rule when the given prop equals the version
+        client: feature_flag_client
+        function: enabled
+        contexts:
+          block:
+            app:
+              version: "2.0.0"
+        input:
+          flag: "feature-flag.semver-greater-than"
+        expected:
+          value: false
+
+      - name: returns false for PROP_SEMVER_EQUAL rule when the given prop is less than the version
+        client: feature_flag_client
+        function: enabled
+        contexts:
+          block:
+            app:
+              version: "0.0.5"
+        input:
+          flag: "feature-flag.semver-greater-than"
+        expected:
+          value: false
