@@ -543,6 +543,14 @@ tests:
         expected:
           value: false
 
+      - name: returns false for PROP_BEFORE rule using current-time relative to 2050-01-01
+        client: feature_flag_client
+        function: enabled
+        input:
+          flag: "feature-flag.before.current-time"
+        expected:
+          value: true
+
 
         #####################################
         ## PROP_AFTER  ##
@@ -607,6 +615,14 @@ tests:
           flag: "feature-flag.after"
         expected:
           value: false
+
+      - name: returns false for PROP_AFTER rule using current-time relative to 2025-01-01
+        client: feature_flag_client
+        function: enabled
+        input:
+          flag: "feature-flag.after.current-time"
+        expected:
+          value: true
 
 
         #####################################
