@@ -1,0 +1,39 @@
+---
+version: 0.1.3
+function: get
+tests:
+  - name: reads_nested_int
+    client: config_client
+    input:
+      key: "integration.int"
+    expected:
+      value: 123
+    client_overrides:
+      prefab_envs: "integration"
+
+  - name: reads_nested_float
+    client: config_client
+    input:
+      key: "integration.float"
+    expected:
+      value: 5.22
+    client_overrides:
+      prefab_envs: "integration"
+
+  - name: reads_nested_bool
+    client: config_client
+    input:
+      key: "integration.bool"
+    expected:
+      value: true
+    client_overrides:
+      prefab_envs: "integration"
+
+  - name: reads_nested_string
+    client: config_client
+    input:
+      key: "integration.string"
+    expected:
+      value: "hello"
+    client_overrides:
+      prefab_envs: "integration"
